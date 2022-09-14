@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/stylesheets/index.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="main">
+    <div id="name_overlay">
+      <div id="namebtao">
+        <h3>Secret name</h3>
+        <input type="text" id="name_input">
+        <button id="namebtn">Enter the chat room</button>
+      </div>
+    </div>
+    <div id="card"></div>
+    <textarea id="inputta"></textarea>
+    <button id="submit_text">Submit</button>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+    <script>
+      var socket = io();
+      var username = "vinod";
+
+      document.querySelector('#submit_text').addEventListener("click", function() {
+        socket.emit('message', {value:document.querySelector('#inputta').value, name: username});
+      })
+
+      socket.on('msg', function(data) {
+        document.querySelector('#card').innerHTML += `<div id="mcard">
+          <h5>${data.name}</h5>
+          <p>${data.value}</p>
+        </div>`
+        document.querySelector("#inputta").value="";
+      })
+
+      document.querySelector('#namebtn').addEventListener("click", function(){
+        if(document.querySelector("#name_input").value.trim().length > 0){
+          username = document.querySelector("#name_input").value;
+          socket.emit('username', username);
+          document.querySelector('#name_overlay').style.display= 'none';
+        }  
+      })
+
+
+    </script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,3 @@
+1) auto scroll to the bottom in text card
+2) scrollbar styling
+3) valorant like online users

@@ -1,0 +1,99 @@
+1) express folder_name -- view=ejs
+2) cd folder_name
+3) npm in
+4) npm i mongoose socket.io
+
+5) paste socket.io cdn 
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+
+6) refer to 
+    https://stackoverflow.com/questions/24609991/using-socket-io-in-express-4-and-express-generators-bin-www
+
+7) create socketapi.js on root level and paste
+
+    const io = require( "socket.io" )();
+    const socketapi = {
+        io: io
+    };
+
+    // Add your socket.io logic here!
+    io.on( "connection", function( socket ) {
+        console.log( "A user connected" );
+    });
+    // end of socket.io logic
+
+    maodule.exports = socketapi;
+
+
+8) modify bin/www as given on stack overflow ... two lines will be added
+
+    /**
+    * Module dependencies.
+    */
+
+    var app = require('../app');
+    var debug = require('debug')('socketexpress:server');
+    var http = require('http');
+    let socketapi = require("../socketapi"); // <== Add this line
+
+    /**
+    * Get port from environment and store in Express.
+    */
+
+    var port = normalizePort(process.env.PORT || '3000');
+    app.set('port', port);
+
+    /**
+    * Create HTTP server.
+    */
+
+    var server = http.createServer(app);
+    socketapi.io.attach(server); // <== Also add this line
+
+    (...)
+
+9) open index/the page where socket is to be used and paste inside script above all socket code
+        <script>
+            var socket = io();
+        </script>
+
+10) io => is for every user
+    socket => is for single user
+    socket.id => is the id of the user
+
+11) socket.emit('message', value);
+    emit means to send
+    with this line we can send value of anything or an object with values 
+
+12) socket.on('message', function(data){
+        // console.log(data); 
+        io.emit('msg',data);
+    })
+    with this we can receive the data sent from previous line on our backend (in our case message/object which was sent by the user)
+    now the next line => io.emit('msg',data); <= sends the received data to every user.
+
+13) socket.on('msg', function(data) {
+       console.log(data); 
+    })
+    with this the data emmited by => io.emit('msg',data); <= can be received
+    note: eventname (in our case msg/message (could be any name)) should be same for receiving and sending
+
+14) in simple words
+
+    socket.emit('message', value);
+    message was sent from single user 
+
+
+    socket.on('message', function(data){
+        // console.log(data); 
+        io.emit('msg',data);
+    })
+    the send data was received here (event name is same i.e. message);
+    after receiving data in data of the callback function the data was send to every user by =>  io.emit('msg',data);  <=
+
+
+    socket.on('msg', function(data) {
+       console.log(data); 
+    })
+    the sent data was received here (event name is same i.e. msg);
+    now you can show it on card console it whatever you want
