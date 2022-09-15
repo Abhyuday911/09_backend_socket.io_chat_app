@@ -31,11 +31,17 @@
       var username = "vinod";
       var clutter = "";
 
+
+
       document.querySelector('#submit_text').addEventListener("click", function() {
-        socket.emit('message', {
-          value: document.querySelector('#inputta').value,
-          name: username
-        });
+        if (document.querySelector("#inputta").value.trim().length) {
+          socket.emit('message', {
+            value: document.querySelector('#inputta').value,
+            name: username
+          });
+        }
+        document.querySelector("#inputta").disabled = false;
+        document.querySelector("#inputta").focus();
       })
 
       socket.on('msg', function(data) {
