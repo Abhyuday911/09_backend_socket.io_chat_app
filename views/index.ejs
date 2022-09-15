@@ -11,6 +11,10 @@
 
 <body>
   <div id="main">
+    <div id="vnav">
+
+
+    </div>
     <div id="name_overlay">
       <div id="namebtao">
         <h3>Secret name</h3>
@@ -25,9 +29,13 @@
     <script>
       var socket = io();
       var username = "vinod";
+      var clutter = "";
 
       document.querySelector('#submit_text').addEventListener("click", function() {
-        socket.emit('message', {value:document.querySelector('#inputta').value, name: username});
+        socket.emit('message', {
+          value: document.querySelector('#inputta').value,
+          name: username
+        });
       })
 
       socket.on('msg', function(data) {
@@ -35,19 +43,54 @@
           <h5>${data.name}</h5>
           <p>${data.value}</p>
         </div>`
-        document.querySelector("#inputta").value="";
+        document.querySelector("#inputta").value = "";
+        document.querySelector('#card').scrollTop = document.querySelector('#card').scrollHeight
+        document.querySelector("#inputta").disabled = false;
+        document.querySelector("#inputta").focus();
       })
 
-      document.querySelector('#namebtn').addEventListener("click", function(){
-        if(document.querySelector("#name_input").value.trim().length > 0){
+      document.querySelector('#namebtn').addEventListener("click", function() {
+        if (document.querySelector("#name_input").value.trim().length > 0) {
           username = document.querySelector("#name_input").value;
           socket.emit('username', username);
-          document.querySelector('#name_overlay').style.display= 'none';
-        }  
+          document.querySelector('#name_overlay').style.display = 'none';
+
+          //   document.querySelector('#vnav').innerHTML += `
+          // <div id="user">
+          //   <div id="userphoto"><img src="https://avatars.dicebear.com/api/identicon/${username}.svg" alt=""></div>
+          //   <p>${username}</p>
+          // </div>`
+
+        }
       })
 
+      socket.on('users', function(userarray) {
+        clutter = "";
 
+        userarray.forEach(function(user) {
+          clutter += `
+        <div id="user">
+          <div id="userphoto"><img src="https://avatars.dicebear.com/api/identicon/${user}.svg" alt=""></div>
+          <p>${user.split("-")[0]}</p>
+        </div>`
+        });
+
+        document.querySelector('#vnav').innerHTML = clutter;
+      })
+
+      document.querySelector('#vnav').addEventListener('mouseenter', function() {
+        document.querySelectorAll('#user p').forEach(function(elem) {
+          elem.style.display = "initial";
+        })
+      });
+
+      document.querySelector('#vnav').addEventListener('mouseout', function() {
+        document.querySelectorAll('#user p').forEach(function(elem) {
+          elem.style.display = "none";
+        })
+      })
     </script>
   </div>
 </body>
+
 </html>

@@ -5,6 +5,8 @@ const socketapi = {
 
 var connections = [];
 var connectionid =[];
+var connectionname = [];
+
 
 io.on( "connection", function( socket ) {
     console.log( `A user connected` );
@@ -22,13 +24,19 @@ io.on( "connection", function( socket ) {
 
         console.log(connections);
         console.log(connectionid);
+
+        io.emit("users", connections);
     })
 
     socket.on("username", function(data){
-        connections.push(data);
+        connections.push(data +"-"+ Math.random());
+        connectionname.push(data);
         connectionid.push(socket.id);
+
         console.log(connections);
         console.log(connectionid);
+
+        io.emit("users", connections);
     })
 });
 
