@@ -84,18 +84,32 @@
         document.querySelector('#vnav').innerHTML = clutter;
       })
 
+      var open = 1;
+
       document.querySelector('#vnav').addEventListener('mouseenter', function() {
         document.querySelectorAll('#user p').forEach(function(elem) {
           elem.style.display = "initial";
         })
+        open = 1;
       });
 
       document.querySelector('#vnav').addEventListener('mouseleave', function() {
         document.querySelectorAll('#user p').forEach(function(elem) {
           elem.style.display = "none"; 
-
         })
+        open = 0;
       })
+
+      // document.querySelector('#vnav').addEventListener('click', function() {
+      //   document.querySelectorAll('#user p').forEach(function(elem) {
+      //     if(open){
+      //       elem.style.display = "none";
+      //     }
+      //     else{
+      //       elem.style.display = "initail";
+      //     }
+      //   })
+      // });
     </script>
   </div>
 </body>
