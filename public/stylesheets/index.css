@@ -41,7 +41,7 @@ body {
 
 #main {
   height: 100%;
-  width: 100%;
+  width: 100vw;
   background-color: rgb(27, 27, 27);
   padding: 1.5vw 6vw 1.5vw 2vw;
   padding-right: calc(1.5vw + 50px);
@@ -52,7 +52,7 @@ body {
 }
 
 #card {
-  height: calc(100% - 3vw - 7px - 14px - 45px - 45px);
+  height: calc(100% - 7px - 14px - 45px - 45px);
   width: 100%;
   overflow: auto;
   background-color: rgb(41, 41, 41);
