@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
   <link rel="stylesheet" href="/stylesheets/index.css">
-  <title>Document</title>
+  <title>Socket.io_chat-app</title>
 </head>
 
 <body>
@@ -22,7 +22,10 @@
         <button id="namebtn">Enter the chat room</button>
       </div>
     </div>
-    <div id="card"></div>
+    <div id="cardp">
+      <div id="typing"></div>
+      <div id="card"></div>
+    </div>
     <textarea id="inputta"></textarea>
     <button id="submit_text">Submit</button>
     <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
@@ -30,7 +33,19 @@
       var socket = io();
       var username = "vinod";
       var clutter = "";
+      var condition = 1;
+      var mscroll_value = 0;
+      var timeout;
 
+      document.querySelector("#card").addEventListener('scroll', function() {
+        if (document.querySelector('#card').scrollTop < mscroll_value - 50) {
+          condition = 0;
+          console.log(condition);
+        } else {
+          condition = 1;
+          console.log(condition);
+        }
+      })
 
 
       document.querySelector('#submit_text').addEventListener("click", function() {
@@ -39,6 +54,7 @@
             value: document.querySelector('#inputta').value,
             name: username
           });
+          document.querySelector("#inputta").value = "";
         }
         document.querySelector("#inputta").disabled = false;
         document.querySelector("#inputta").focus();
@@ -49,14 +65,17 @@
           <h5>${data.name}</h5>
           <p>${data.value}</p>
         </div>`
-        document.querySelector("#inputta").value = "";
-        document.querySelector('#card').scrollTop = document.querySelector('#card').scrollHeight
+
+        if (condition) {
+          document.querySelector('#card').scrollTop = document.querySelector('#card').scrollHeight;
+          mscroll_value = document.querySelector('#card').scrollTop;
+        }
         document.querySelector("#inputta").disabled = false;
         document.querySelector("#inputta").focus();
       })
 
       document.querySelector('#namebtn').addEventListener("click", function() {
-        if (document.querySelector("#name_input").value.trim().length > 0) {
+        if (document.querySelector("#name_input").value.trim().length) {
           username = document.querySelector("#name_input").value;
           socket.emit('username', username);
           document.querySelector('#name_overlay').style.display = 'none';
@@ -68,6 +87,25 @@
           // </div>`
 
         }
+      })
+
+      document.querySelector('#inputta').addEventListener('input', function(){
+        socket.emit('typing')
+      })
+
+      socket.on('typingg', function(name){
+        // console.log(`typing ${name}`)
+        
+        document.querySelector('#typing').innerHTML = `<h6><i>${name} </i> is typing</h6> `
+        
+        clearTimeout(timeout);
+        
+        timeout = setTimeout(function() {
+          document.querySelector('#typing').innerHTML = '';
+        }, 1000);
+
+        console.log(timeout)
+
       })
 
       socket.on('users', function(userarray) {
@@ -95,7 +133,7 @@
 
       document.querySelector('#vnav').addEventListener('mouseout', function() {
         document.querySelectorAll('#user p').forEach(function(elem) {
-          elem.style.display = "none"; 
+          elem.style.display = "none";
         })
         // open = 0;
       })

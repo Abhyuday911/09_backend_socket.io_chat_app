@@ -10,6 +10,11 @@ var connectionname = [];
 
 io.on( "connection", function( socket ) {
     console.log( `A user connected` );
+
+    socket.on('typing', function(){
+        socket.broadcast.emit("typingg", connectionname[connectionid.indexOf(socket.id)]);
+    })
+
     socket.on('message', function(data){
         // console.log(data); 
         io.emit('msg',data);

@@ -51,14 +51,39 @@ body {
   border-right: 2px solid #303030;
 }
 
-#card {
+#cardp {
   height: calc(100% - 7px - 14px - 45px - 45px);
   width: 100%;
-  overflow: auto;
   background-color: rgb(41, 41, 41);
   border: 2px solid #303030;
   border-radius: 3px;
-  padding: 0px 6px 5px 6px;
+  padding: 6px 0px 5px 6px;
+  position: relative;
+}
+
+#typing{
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: rgba(34, 34, 34, 0.055);
+  color: rgba(243, 243, 243, 0.514);
+  font-size: 17px;
+  padding-top: 3px;
+}
+
+#typing i{
+  margin-right: 3px;
+}
+
+#card{
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  padding-right: 6px;
 }
 
 #inputta {
@@ -121,6 +146,7 @@ body {
   position: absolute;
   top: 0%;
   left: 0%;
+  z-index: 5;
   background-color: rgba(255, 255, 255, 0.199);
 }
 
@@ -180,6 +206,7 @@ body {
   flex-direction: column;
   padding: 10px 10px 0px 10px;
   overflow-y: auto;
+  z-index: 4;
 }
 
 #user{
