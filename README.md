@@ -16,6 +16,7 @@ real-time
 - Auto scroll to bottom
 - no auto scroll once user scrolls up to view older messages
 - auto scroll resumes when user returns to the bottom
+- used socket broadcast to show other users who is typing
 
 
 
