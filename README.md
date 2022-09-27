@@ -2,8 +2,9 @@
 
 ### 🔗link - https://chat-app-socketio-abhyuday.herokuapp.com/
 
-This app is made so that a user can communicate to other online users on the app
-real-time with the help of Socket.io 
+This app is made to allow users to communicate in real time with other online users on the app with the help of Socket.io.
+
+To see this app in action, open the link on two different devices if possible, and you're good to go You can start chatting on these devices.
 
 
 
