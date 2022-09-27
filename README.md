@@ -3,7 +3,7 @@
 ### 🔗link - https://chat-app-socketio-abhyuday.herokuapp.com/
 
 This app is made so that a user can communicate to other online users on the app
-real-time 
+real-time with the help of Socket.io 
 
 
 
@@ -11,6 +11,7 @@ real-time
 ## Features
 
 - Visibility of online users
+- Disconnection detection
 - Fullscreen mode
 - Cross platform
 - Auto scroll to bottom
